@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swiss AI Cinema Laboratory - Exploring Film's Creative Frontier</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a1a1a;
+            --accent: #ff4444;
+            --light: #f5f5f5;
+            --gray: #888;
+            --max-width: 1200px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--primary);
+            background: white;
+        }
+
+        /* Header */
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            background: rgba(26, 26, 26, 0.95);
+        }
+
+        nav {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: bold;
+            letter-spacing: -0.5px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+            font-size: 0.95rem;
+        }
+
+        nav a:hover {
+            opacity: 0.7;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 60px;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255, 68, 68, 0.03) 10px,
+                rgba(255, 68, 68, 0.03) 20px
+            );
+            animation: slide 20s linear infinite;
+        }
+
+        @keyframes slide {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .hero-content {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            line-height: 1.8;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: inline-block;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #ff6666;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border-color: white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        /* Main Content Sections */
+        section {
+            padding: 5rem 2rem;
+            max-width: var(--max-width);
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .lead {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 3rem;
+            max-width: 800px;
+        }
+
+        /* About Section */
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .about-item h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .about-item p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* Program Section */
+        .program {
+            background: var(--light);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin-top: 3rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--accent);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 3rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.4rem;
+            top: 0;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 3px solid white;
+        }
+
+        .timeline-item h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-item .date {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Stats Section */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .stat {
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Partners Section */
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .partner {
+            padding: 2rem;
+            background: var(--light);
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .partner:hover {
+            transform: translateY(-5px);
+        }
+
+        .partner h4 {
+            margin-bottom: 0.5rem;
+        }
+
+        .partner p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+        }
+
+        .contact h2 {
+            color: white;
+        }
+
+        .contact-info {
+            margin-top: 2rem;
+        }
+
+        .contact-info a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            background: #0a0a0a;
+            color: var(--gray);
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.8s forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">Swiss AI Cinema Lab</div>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#program">Program</a></li>
+                <li><a href="#partners">Partners</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="fade-in">Swiss AI Cinema Laboratory</h1>
+            <div class="subtitle fade-in">Artistic Research Initiative 2025-2027</div>
+            <p class="fade-in">
+                Exploring the creative frontier between human and machine filmmaking. 
+                A two-year collaborative experiment bringing together Zurich's film industry 
+                to investigate AI as a new artistic medium.
+            </p>
+            <div class="cta-buttons fade-in">
+                <a href="#program" class="btn btn-primary">Explore the Program</a>
+                <a href="#contact" class="btn btn-secondary">Join the Initiative</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2>Transforming Fear into Creative Agency</h2>
+        <p class="lead">
+            Rather than viewing AI as a threat to traditional cinema, we embrace it as a new creative 
+            medium requiring critical exploration and artistic research.
+        </p>
+        
+        <div class="about-grid">
+            <div class="about-item">
+                <h3>Artistic Research</h3>
+                <p>
+                    Creating 15-20 experimental prototypes exploring non-linear narratives, 
+                    generative aesthetics, and human-AI co-creation. This isn't about efficiency — 
+                    it's about discovering new forms of cinematic expression.
+                </p>
+            </div>
+            <div class="about-item">
+                <h3>Open Knowledge</h3>
+                <p>
+                    All tools, methodologies, and discoveries will be open-sourced and shared 
+                    with the global creative community. We're building alternatives to Silicon 
+                    Valley's commercial AI narrative.
+                </p>
+            </div>
+            <div class="about-item">
+                <h3>Community Building</h3>
+                <p>
+                    Connecting 4-5 production companies, partnering with ZHdK, ETH, and 
+                    international film festivals. Creating a sustainable network for ongoing 
+                    artistic exploration.
+                </p>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number">120+</div>
+                <div class="stat-label">Professionals Trained</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">8</div>
+                <div class="stat-label">Workshops</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">4</div>
+                <div class="stat-label">Public Roundtables</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">20</div>
+                <div class="stat-label">Artistic Prototypes</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Program Section -->
+    <section id="program" class="program">
+        <h2>Two-Year Journey</h2>
+        <p class="lead">
+            A carefully structured exploration from foundation to international dissemination.
+        </p>
+        
+        <div class="timeline">
+            <div class="timeline-item">
+                <h3>Phase 1: Foundation</h3>
+                <div class="date">Months 1-6 (March - August 2025)</div>
+                <p>
+                    Infrastructure setup with open-source principles. Initial workshops on 
+                    "AI as Creative Partner" and "Algorithmic Aesthetics". First experimental 
+                    prototypes begin.
+                </p>
+            </div>
+            <div class="timeline-item">
+                <h3>Phase 2: Exploration</h3>
+                <div class="date">Months 7-18 (September 2025 - August 2026)</div>
+                <p>
+                    Deep dive into artistic experimentation. 10-15 projects in production. 
+                    Public roundtables with international guests. First exhibition of works.
+                </p>
+            </div>
+            <div class="timeline-item">
+                <h3>Phase 3: Dissemination</h3>
+                <div class="date">Months 19-24 (September 2026 - February 2027)</div>
+                <p>
+                    International symposium "Cinema After Algorithms". Open-source toolkit 
+                    release. Final exhibition and sustainability planning for continued operations.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners Section -->
+    <section id="partners">
+        <h2>Collaborative Network</h2>
+        <p class="lead">
+            Building bridges between technology, art, and culture in Zurich and beyond.
+        </p>
+        
+        <div class="partners-grid">
+            <div class="partner">
+                <h4>Production Companies</h4>
+                <p>4-5 leading Swiss production companies committed to experimental exploration</p>
+            </div>
+            <div class="partner">
+                <h4>Academic Partners</h4>
+                <p>ZHdK, ETH Media Lab, ZHAW working together on research and education</p>
+            </div>
+            <div class="partner">
+                <h4>Cultural Institutions</h4>
+                <p>Kunsthaus Zürich, Rote Fabrik, Swiss Film Archive supporting exhibitions</p>
+            </div>
+            <div class="partner">
+                <h4>International Network</h4>
+                <p>Connections with experimental film festivals and AI art communities globally</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <h2>Join the Experiment</h2>
+        <p class="lead">
+            Be part of Switzerland's artistic response to AI in cinema.
+        </p>
+        <div class="contact-info">
+            <p>For participation, partnerships, or more information:</p>
+            <p style="margin-top: 1rem;">
+                <a href="mailto:info@swissaicinema.ch">info@swissaicinema.ch</a>
+            </p>
+            <p style="margin-top: 2rem;">
+                <a href="#">Download Full Proposal (PDF)</a> | 
+                <a href="#">Workshop Schedule</a> | 
+                <a href="#">Partner Information</a>
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>
+            Swiss AI Cinema Laboratory | An initiative supported by 
+            <a href="#">Zürcher Filmstiftung</a> and <a href="#">SingularityIsHere.org</a>
+        </p>
+        <p style="margin-top: 1rem;">
+            © 2025 Swiss AI Cinema Lab. Open Source Initiative.
+        </p>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add fade-in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationDelay = '0.2s';
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
